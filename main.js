@@ -1,12 +1,12 @@
 let keyframes = [
     {
         activeVerse: 1,
-        activeLines: [1, 2, 3, 4],
+        activeLines: [1, 2, 3, 4, 5],
         svgUpdate: drawRoseColors
     },
     {
         activeVerse: 2,
-        activeLines: [1, 2, 3, 4],
+        activeLines: [1, 2, 3, 4, 5],
         svgUpdate: drawVioletColors
     },
     {
@@ -30,6 +30,10 @@ let keyframes = [
         svgUpdate: () => highlightColorMultiple("Red","Pink","White","Yellow","Orange")
     },
     {
+        activeVerse: 3,
+        activeLines: [5]
+    },
+    {
         activeVerse: 4,
         activeLines: [1],
         svgUpdate: clickRedBar
@@ -46,6 +50,10 @@ let keyframes = [
     {
         activeVerse: 4,
         activeLines: [4]
+    },
+    {
+        activeVerse: 4,
+        activeLines: [5]
     },
     {
         activeVerse: 5,
@@ -65,9 +73,13 @@ let keyframes = [
         activeVerse: 5,
         activeLines: [4]
     },
+    {
+        activeVerse: 5,
+        activeLines: [5]
+    },
      {
         activeVerse: 6,
-        activeLines: [1, 2, 3, 4]
+        activeLines: [1, 2, 3, 4, 5]
     }
 ]
 // TODO add svgUpdate fields to keyframes
