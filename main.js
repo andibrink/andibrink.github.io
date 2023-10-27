@@ -64,6 +64,10 @@ let keyframes = [
     {
         activeVerse: 5,
         activeLines: [4]
+    },
+     {
+        activeVerse: 6,
+        activeLines: [1, 2, 3, 4]
     }
 ]
 // TODO add svgUpdate fields to keyframes
