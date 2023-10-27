@@ -1,4 +1,3 @@
-M4 Static Vis Test Site
 
 <!DOCTYPE html>
 <html>
@@ -9,7 +8,7 @@ M4 Static Vis Test Site
   </head>
   <body>
     <header>
-      <h1 class="title">Roses: A Scrollytelling Experience</h1>
+      <h1 class="title">M4 Static Vis Test Site</h1>
     </header>
     <main class="wrapper">
       <div class="left-column">
