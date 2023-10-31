@@ -11,30 +11,37 @@ header {
   background-color: #540b0e;
   text-align: center;
   color: #FFF3b0;
-  height: 100px;
+  height: 75px;
 }
 
 .title {
   padding: 20px;
 }
 
+.line {
+  fill: none;
+  stroke: #335c67;
+  stroke-width: 2px;
+  }
+
 .wrapper {
   display: flex; 
   flex-grow: 1; 
-  min-height: calc(100vh - 150px);
+  min-height: calc(100vh);
+  color:#540b0e;
 }
+
 .left-column {
   flex: 1; 
   background-color: #e09f3e;
-  color: #e09f3e;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 10px;
 }
 
 .left-column-content {
-  max-height: calc(100vh - 150px);
+  max-height: calc(100vh);
   overflow: auto;
 }
 
@@ -44,12 +51,14 @@ header {
 }
 
 .right-column {
-  flex: 2; 
-  background-color: #9e2a2b;
+  width: 90%;
+  flex: 1; 
+  background-color: #FFF3b0;
   color: #FFF3b0;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  align-items: left;
+  color:#540b0e;
 }
 
 footer {
@@ -63,15 +72,8 @@ footer {
   height: 50px;
 }
 
-.arrow-button {
-  font-size: 10px;
-  padding: 2px 10px;
-  margin: 0 10px;
-  height: 25px;
-}
-
 .verse {
-  font-size: 2em;
+  font-size: 20px;
   list-style-type: none;
   padding: 0px;
   font-weight: 100;
@@ -79,42 +81,15 @@ footer {
 }
 
 svg {
-  background-color: #335c67;
-}
-
-.active-verse{
-  font-weight: 900;
-  color: #9e2a2b;
-}
-
-.active-line{
+  width: 60%;
+  background-color: #FFF3b0;
   color: #540b0e;
+  height: 650px;
+  justify-content: left;
+  align-items: left;
 }
 
 .filler-verse {
-  height: 200px;
+  height: 5px;
 }
 
-/* TODO add css classes for active-verse and active-line */
-
-/* TODO add css to create filler verse  */
-
-/* TODO add css class to make "red" span clickable */
-.red-span {
-  cursor: pointer;
-}
-
-.purp-span {
-  cursor: pointer;
-}
-
-.red-text {
-  color: red;
-}
-
-/* TODO add css class to make red-text text red */
-
-/* TODO illustrate how to use css classes to interact with d3 elements */
-.bar:hover {
-  fill: #e4ab57;
-}
