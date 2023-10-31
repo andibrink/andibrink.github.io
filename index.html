@@ -1,77 +1,141 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Scrollytelling Poems</title>
-    <link rel="stylesheet" type="text/css" href="styles.css" />
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-  </head>
-  <body>
-    <header>
-      <h1 class="title">A Mockery: erjawoeinv</h1>
-    </header>
-    <main class="wrapper">
-      <div class="left-column">
-        <div class="left-column-content">
-          <div class="filler-verse"></div>
-          <ul class="verse" id="verse1">
-            <li class="line" id="line1">At the base of the <span class="red-span">hotel,</span></li>
-            <li class="line" id="line2">a Sparrow lies on the concrete</li>
-            <li class="line" id="line3">in the orange light of dawn.</li>
-            <li class="line" id="line4">Smaller than your hand,</li>
-            <li class="line" id="line5">and much stiller.</li>            
-          </ul>
+    <meta charset="utf-8">
+    
+    <head>
+        <title>Scrollytelling Poems</title>
+        <link rel="stylesheet" type="text/css" href="styles.css" />
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+    </head>
+    <body>
+        <!-- load the d3.js library -->    
+        <header>
+            <h1 class="title">A Mockery: Light Pollution and Bird Deaths</h1>
+        </header>	
+        <main class="wrapper">
+        <div class="left-column">
+            <div class="left-column-content">
+              <ul class="verse" id="verse1">
+                <p> At the base of the hotel,
+                <br>a Sparrow lies on the concrete
+                <br>in the orange light of dawn.
+                <br>Smaller than your hand,
+                <br>and much stiller.   
+                </p>     
+              </ul>
+    
+              <ul class="verse" id="verse2">
+                <li>She is reflected</li>
+                <li>in the cool blue glass</li>
+                <li>Her doppelganger silent</li>
+                <li>in the window of this new and</li>
+                <li>shining monument.</li>            
+              </ul>
+    
+              <ul class="verse" id="verse3">
+                <li>Its beauty claims another life,</li>
+                <li>another fifty.</li>
+                <li>Where Sweetgum</li>
+                <li>and Live Oaks</li>
+                <li>once stood, it glows.</li>            
+              </ul>
+    
+              <ul class="verse" id="verse4">
+                <li>Beckons in the bright, starless night</li>
+                <li>the refuse of our teeming shore.</li>
+                <li>The Dune Mice and Turtle Hatchlings</li>
+                <li>wander steadfast</li>
+                <li>towards that falsemoon.</li>            
+              </ul>
+    
+              <ul class="verse" id="verse5">
+                <li>Crawling,</li>
+                <li>Slowly,</li>
+                <li>Surely.</li>
+                <li>through the still-warm sand</li>
+                <li>and the smooth cordgrass.</li>            
+              </ul>
+    
+              <ul class="verse" id="verse6">
+                <li>Away from the steady beat of the waves,</li>
+                <li>and their mothers' worried hearts.</li>
+                <li>The dunes and beachgrass hum with the wind,</li>
+                <li>and the low sounds of the long, hot night</li>
+                <li>sing on.</li>            
+              </ul>
+            </div>
+          </div>
 
-          <ul class="verse" id="verse2">
-            <li class="line" id="line1">She <em>is</em> reflected</li>
-            <li class="line" id="line2">in the cool <span class="purp-span">blue</span> glass</li>
-            <li class="line" id="line3">Her doppelganger silent</li>
-            <li class="line" id="line4">in the window of this <span class="purp-span">new</span>and</li>
-            <li class="line" id="line5">shining monument.</li>            
-          </ul>
+        <div class="right-column">
+            <script>
 
-          <ul class="verse" id="verse3">
-            <li class="line" id="line1">Its beauty claims another life,</li>
-            <li class="line" id="line2">another <span class="red-span">fifty.</span></li>
-            <li class="line" id="line3">Where Sweetgum</li>
-            <li class="line" id="line4">and Live Oaks</li>
-            <li class="line" id="line5">once stood, it glows.</li>            
-          </ul>
+            // set the dimensions and margins of the graph
+            var margin = {top: 20, right: 30, bottom: 30, left: 10},
+                width = 700 - margin.left - margin.right,
+                height = 500 - margin.top - margin.bottom;
 
-          <ul class="verse" id="verse4">
-            <li class="line" id="line1">Beckons in the <span class="red-span">bright,</span> starless night</li>
-            <li class="line" id="line2">the refuse of our teeming shore.</li>
-            <li class="line" id="line3">The Dune Mice and Turtle Hatchlings</li>
-            <li class="line" id="line4">wander steadfast</li>
-            <li class="line" id="line5">towards that falsemoon.</li>            
-          </ul>
+            // parse the date / time
+            var parseTime = d3.timeParse("%d-%b-%y");
 
-          <ul class="verse" id="verse5">
-            <li class="line" id="line1">Crawling,</li>
-            <li class="line" id="line2">Slowly,</li>
-            <li class="line" id="line3">Surely.</li>
-            <li class="line" id="line4">through the still-warm sand</li>
-            <li class="line" id="line5">and the smooth cordgrass.</li>            
-          </ul>
+            // set the ranges
+            var x = d3.scaleTime().range([0, width]);
+            var y = d3.scaleLinear().range([height, 0]);
 
-          <ul class="verse" id="verse6">
-            <li class="line" id="line1">Away from the steady beat of the waves,</li>
-            <li class="line" id="line2">and their mothers' worried hearts.</li>
-            <li class="line" id="line3">The dunes and beachgrass hum with the wind,</li>
-            <li class="line" id="line4">and the low sounds of the long, hot night</li>
-            <li class="line" id="line5">sing on.</li>            
-          </ul>
+            // define the line
+            var valueline = d3.line()
+                .x(function(d) { return x(d.date); })
+                .y(function(d) { return y(d.close); });
 
-          <div class="filler-verse"></div>
+            // append the svg obgect to the body of the page
+            // appends a 'group' element to 'svg'
+            // moves the 'group' element to the top left margin
+            var svg = d3.select("main").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom+50)
+            .append("g")
+                .attr("transform",
+                    "translate(" + (20+margin.left)+ "," + (20+margin.top) + ")");
+
+            // Get the data
+            d3.csv("data.csv").then(function(data) {
+
+            // format the data
+            data.forEach(function(d) {
+                d.date = parseTime(d.date);
+                d.close = +d.close;
+            });
+
+            // Scale the range of the data
+            x.domain(d3.extent(data, function(d) { return d.date; }));
+            y.domain([0, d3.max(data, function(d) { return d.close; })]);
+
+            // Add the valueline path.
+            svg.append("path")
+                .data([data])
+                .attr("class", "line")
+                .attr("d", valueline);
+
+            // Add the x Axis
+            svg.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x));
+
+            // Add the y Axis
+            svg.append("g")
+                .call(d3.axisLeft(y));
+
+            });
+
+            svg.append("text")
+            .attr("x", (width / 2))             
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")  
+            .style("font-size", "20px")   
+            .style('fill', '#540b0e')
+            .text("Daily Bird Deaths at McCormick Place, Chicago IL");
+            </script>
         </div>
-      </div>
-      <div class="right-column">
-        <svg id="svg"></svg>
-      </div>
-    </main>
-    <footer>
-      <button class="arrow-button" id="backward-button" style="background-color: #335c67; border-radius: 3px;color: #0c1619;">◄</button>
-      <button class="arrow-button" id="forward-button" style="background-color: #335c67; border-radius: 3px;color: #0c1619;">►</button>
-    </footer>
-    <script src="main.js"></script>
-  </body>
+        </main>
+        <footer></footer>
+    </body>
 </html>
