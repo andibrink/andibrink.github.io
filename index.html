@@ -16,52 +16,52 @@
         <div class="left-column">
             <div class="left-column-content">
               <ul class="verse" id="verse1">
-                <p> At the base of the hotel,
-                <br>a Sparrow lies on the concrete
-                <br>in the orange light of dawn.
-                <br>Smaller than your hand,
-                <br>and much stiller.   
+              <li class="line" id="line1">At the base of the hotel,
+              <li class="line" id="line1">a Sparrow lies on the concrete
+              <li class="line" id="line1">in the orange light of dawn.
+              <li class="line" id="line1">Smaller than your hand,
+              <li class="line" id="line1">and much stiller.   
                 </p>     
               </ul>
     
               <ul class="verse" id="verse2">
-                <li>She is reflected</li>
-                <li>in the cool blue glass</li>
-                <li>Her doppelganger silent</li>
-                <li>in the window of this new and</li>
-                <li>shining monument.</li>            
+              <li class="line" id="line1">She is reflected</li>
+              <li class="line" id="line1">in the cool blue glass</li>
+              <li class="line" id="line1">Her doppelganger silent</li>
+              <li class="line" id="line1">in the window of this new and</li>
+              <li class="line" id="line1">shining monument.</li>            
               </ul>
     
               <ul class="verse" id="verse3">
-                <li>Its beauty claims another life,</li>
-                <li>another fifty.</li>
-                <li>Where Sweetgum</li>
-                <li>and Live Oaks</li>
-                <li>once stood, it glows.</li>            
+              <li class="line" id="line1">Its beauty claims another life,</li>
+              <li class="line" id="line1">another fifty.</li>
+              <li class="line" id="line1">Where Sweetgum</li>
+              <li class="line" id="line1">and Live Oaks</li>
+              <li class="line" id="line1">once stood, it glows.</li>            
               </ul>
     
               <ul class="verse" id="verse4">
-                <li>Beckons in the bright, starless night</li>
-                <li>the refuse of our teeming shore.</li>
-                <li>The Dune Mice and Turtle Hatchlings</li>
-                <li>wander steadfast</li>
-                <li>towards that falsemoon.</li>            
+              <li class="line" id="line1">Beckons in the bright, starless night</li>
+              <li class="line" id="line1">the refuse of our teeming shore.</li>
+              <li class="line" id="line1">The Dune Mice and Turtle Hatchlings</li>
+              <li class="line" id="line1">wander steadfast</li>
+              <li class="line" id="line1">towards that falsemoon.</li>            
               </ul>
     
               <ul class="verse" id="verse5">
-                <li>Crawling,</li>
-                <li>Slowly,</li>
-                <li>Surely.</li>
-                <li>through the still-warm sand</li>
-                <li>and the smooth cordgrass.</li>            
+              <li class="line" id="line1">Crawling,</li>
+              <li class="line" id="line1">Slowly,</li>
+              <li class="line" id="line1">Surely.</li>
+              <li class="line" id="line1">through the still-warm sand</li>
+              <li class="line" id="line1">and the smooth cordgrass.</li>            
               </ul>
     
               <ul class="verse" id="verse6">
-                <li>Away from the steady beat of the waves,</li>
-                <li>and their mothers' worried hearts.</li>
-                <li>The dunes and beachgrass hum with the wind,</li>
-                <li>and the low sounds of the long, hot night</li>
-                <li>sing on.</li>            
+              <li class="line" id="line1">Away from the steady beat of the waves,</li>
+              <li class="line" id="line1">and their mothers' worried hearts.</li>
+              <li class="line" id="line1">The dunes and beachgrass hum with the wind,</li>
+              <li class="line" id="line1">and the low sounds of the long, hot night</li>
+              <li class="line" id="line1">sing on.</li>            
               </ul>
             </div>
           </div>
@@ -97,33 +97,31 @@
                     "translate(" + (20+margin.left)+ "," + (20+margin.top) + ")");
 
             // Get the data
-            d3.csv("../data.csv").then(function(data) {
+            d3.csv("data.csv").then(function(data) {
+              // format the data
+              data.forEach(function(d) {
+                  d.date = parseTime(d.date);
+                  d.close = +d.close;
+              });
 
-            // format the data
-            data.forEach(function(d) {
-                d.date = parseTime(d.date);
-                d.close = +d.close;
-            });
+              // Scale the range of the data
+              x.domain(d3.extent(data, function(d) { return d.date; }));
+              y.domain([0, d3.max(data, function(d) { return d.close; })]);
 
-            // Scale the range of the data
-            x.domain(d3.extent(data, function(d) { return d.date; }));
-            y.domain([0, d3.max(data, function(d) { return d.close; })]);
+              // Add the valueline path.
+              svg.append("path")
+                  .data([data])
+                  .attr("class", "line")
+                  .attr("d", valueline);
 
-            // Add the valueline path.
-            svg.append("path")
-                .data([data])
-                .attr("class", "line")
-                .attr("d", valueline);
+              // Add the x Axis
+              svg.append("g")
+                  .attr("transform", "translate(0," + height + ")")
+                  .call(d3.axisBottom(x));
 
-            // Add the x Axis
-            svg.append("g")
-                .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x));
-
-            // Add the y Axis
-            svg.append("g")
-                .call(d3.axisLeft(y));
-
+              // Add the y Axis
+              svg.append("g")
+                  .call(d3.axisLeft(y));
             });
 
             svg.append("text")
@@ -136,6 +134,9 @@
             </script>
         </div>
         </main>
-        <footer></footer>
+        <footer>
+          <button class="arrow-button" id="backward-button" style="background-color: #335c67; border-radius: 3px;color: #0c1619;">◄</button>
+          <button class="arrow-button" id="forward-button" style="background-color: #335c67; border-radius: 3px;color: #0c1619;">►</button>
+        </footer>
     </body>
 </html>
