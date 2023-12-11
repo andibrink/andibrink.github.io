@@ -279,7 +279,7 @@ svg = d3.select("main").append("svg")
   .append("g")
       .attr("transform","translate(" + (margin.left)+ "," + (margin.top) + ")");
 
-d3.csv("data/data2000.csv").then(function(data) {
+d3.csv("data.csv").then(function(data) {
   // format the data
   data.forEach(function(d) {
       d.date = parseTime(d.date);
