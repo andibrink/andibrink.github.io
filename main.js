@@ -88,13 +88,19 @@ let keyframes = [
       year: 2017
   }
 ]
+// TODO add svgUpdate fields to keyframes
 
+// TODO define global variables
 
 const height = 300;
 const width = 500;
 const margin = {top: 50, right: 20, bottom: 30, left: 30};
 let chartData;
 
+// Declare global variables for the chart
+
+// This will hold where the actual section of the graph where visual marks, in our case the bars, are being displayed
+// Additionally we'll store the dimensions of this space too
 let chart;
 let chartWidth;
 let chartHeight;
@@ -112,19 +118,19 @@ let year=2000;
 
 function drawKeyframe(kfi) {
 console.log("Drawing keyframe:", kfi);
-
+// TODO get keyframe at index position
 let kf = keyframes[kfi];
-
+// TODO reset any active lines
 resetActiveLines();
-
+// TODO update the active verse
 updateActiveVerse(kf.activeVerse);
-
+// TODO update any active lines
 for(line of kf.activeLines){
   updateActiveLine(kf.activeVerse, line);
 }
-
+// TODO update the svg
 if(kf.svgUpdate){
-
+  // If there is we call it like this
   kf.svgUpdate();
 }
 }
@@ -143,9 +149,10 @@ await d3.csv("data.csv").then(data => {
 }
 
 function updateGraph(data, year) {
-
+   // Filter the data based on the selected year
    const filteredData = data.filter(d => new Date(d.date).getFullYear() <= year);
 
+   // Update xScale and redraw the chart
    xScale.domain(d3.extent(filteredData, d => new Date(d.date)));
    yScale.domain([0, d3.max(filteredData, d => d.close)]);
  
@@ -155,11 +162,13 @@ function updateGraph(data, year) {
      .duration(1000)
      .call(d3.axisBottom(xScale));
  
+   // Update the y-axis
    svg.select(".y-axis")
      .transition()
      .duration(1000)
      .call(d3.axisLeft(yScale));
 
+        // Update the line based on the new x and y scales
    svg.select(".line")
     .data([filteredData])
     .transition()
@@ -173,6 +182,9 @@ function updateGraph(data, year) {
     .attr("dy", "0.25em")
     .style("text-anchor", "end");
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   // Update the zoom behavior's extent based on the new x and y scales
+
    const newZoomExtent = [
     [0, 0],
     [xScale.range()[1], yScale.range()[0]]
@@ -184,26 +196,33 @@ function updateGraph(data, year) {
   .extent([[0, 0], [width, height]])
   .on("zoom", zoomed);
 
+  // Update the zoom behavior in the SVG
 
   svg.select("rect")
   .attr("class", "zoom-rect")
   .attr("width", width)
   .attr("height", height)
   .style("fill", "none")
-  .style("pointer-events", "all") 
+  .style("pointer-events", "all") // Enable pointer events on the rectangle
   .call(newZoom);
-  
+
+
+  // // Apply the zoom behavior to the SVG
   svg.call(newZoom);
 
   function zoomed(event) {
     const newXScale = event.transform.rescaleX(xScale);
 
+    // Update the x-axis based on the zoom transformation
     svg.select(".x-axis").call(d3.axisBottom(newXScale));
 
+    // Update the line based on the new x-scale
     svg.select(".line").attr("d", valueline.x(d => newXScale(d.date)));
 
+    // Store the updated x-scale for future use
     xScale = newXScale;
   }
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
 
@@ -256,6 +275,8 @@ leftColumn.scrollTo({
 })
 }
 
+
+// TODO add event listeners to the buttons
 document.getElementById("forward-button").addEventListener("click", forwardClicked);
 document.getElementById("backward-button").addEventListener("click", backwardClicked);
 
@@ -264,21 +285,28 @@ function initializeSVG(){
 var width = 700 - margin.left - margin.right,
   height = 500 - margin.top - margin.bottom;
 
+// parse the date / time
 var parseTime = d3.timeParse("%d-%b-%y");
 
+// set the ranges
 var x = d3.scaleTime().range([0, width]);
 var y = d3.scaleLinear().range([height, 0]);
 
+// define the line
 var valueline = d3.line()
   .x(function(d) { return x(d.date); })
   .y(function(d) { return y(d.close); });
 
+// append the svg obgect to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
 svg = d3.select("main").append("svg")
   .attr("width", (700 + margin.left + margin.right))
   .attr("height", (500 + margin.top + margin.bottom+50))
   .append("g")
       .attr("transform","translate(" + (margin.left)+ "," + (margin.top) + ")");
 
+// Get the data
 d3.csv("data.csv").then(function(data) {
   // format the data
   data.forEach(function(d) {
@@ -286,14 +314,17 @@ d3.csv("data.csv").then(function(data) {
       d.close = +d.close;
   });
 
+  // Scale the range of the data
   x.domain(d3.extent(data, function(d) { return d.date; }));
   y.domain([0, d3.max(data, function(d) { return d.close; })]);
 
+  // Add the valueline path.
   svg.append("path")
       .data([data])
       .attr("class", "line")
       .attr("d", valueline);
 
+  // Add the x Axis
   svg.append("g")
       .attr("class","x-axis")
       .attr("transform", "translate(0," + height + ")")
@@ -341,19 +372,22 @@ svg.append("rect")
   .attr("width", width)
   .attr("height", height)
   .style("fill", "none")
-  .style("pointer-events", "all")
+  .style("pointer-events", "all") // Enable pointer events on the rectangle
   .call(zoom);
 
-
+// Apply the zoom behavior to the SVG
 svg.call(zoom);
 
 function zoomed(event) {
   const newXScale = event.transform.rescaleX(x);
 
+  // Update the x-axis based on the zoom transformation
   svg.select(".x-axis").call(d3.axisBottom(newXScale));
 
+  // Update the line based on the new x-scale
   svg.select(".line").attr("d", valueline.x(d => newXScale(d.date)));
 
+  // Store the updated x-scale for future use
   xScale = newXScale;
 }
 }
